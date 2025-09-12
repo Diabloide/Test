@@ -68,16 +68,48 @@ button:hover {
   color: green; /* Цвет текста — зелёный (успешно) */
   text-align: center; /* Центрирование текста */
 }
+{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Заголовок меню */
+h1 {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+/* Центровка меню */
+#menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 100px); /* Вычитаем место под заголовок */
+  padding: 20px;
+}
+
+/* Кнопки меню */
 .menu-button {
   display: block;
-  width: 100%;
+  width: 80%;
   max-width: 300px;
-  margin: 10px auto;
-  padding: 16px;
+  margin: 12px 0;
+  padding: 16px 24px;
   background-color: #3f51b5;
   color: white;
-  text-align: center;
   font-size: 18px;
+  text-align: center;
   text-decoration: none;
   border-radius: 8px;
   transition: background-color 0.2s ease;
@@ -85,21 +117,4 @@ button:hover {
 
 .menu-button:hover {
   background-color: #303f9f;
-}
-/* Контейнер для меню-кнопок */
-.menu-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;  /* Центровка по вертикали */
-  align-items: center;      /* Центровка по горизонтали */
-  height: 100vh;            /* Высота на весь экран */
-  padding: 20px;
-}
-
-/* Заголовок меню (можно переопределить, если нужно) */
-.menu-container h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 24px;
-  color: #333;
 }
