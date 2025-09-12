@@ -68,3 +68,21 @@ button:hover {
   color: green; /* Цвет текста — зелёный (успешно) */
   text-align: center; /* Центрирование текста */
 }
+.menu-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 10px auto;
+  padding: 16px;
+  background-color: #3f51b5;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.menu-button:hover {
+  background-color: #303f9f;
+}

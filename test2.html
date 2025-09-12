@@ -11,10 +11,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <h1>Тест 1</h1>
-  <p>Вопрос 1: Какой язык мы используем?</p>
-  <button>JavaScript</button>
-  <button>Python</button>
-  <button>C#</button>
-</body>
-</html>
+  
+  <div id="quiz-container">
+    <!-- Вопросы будут загружаться сюда -->
+  </div>
+
+  <button onclick="submitQuiz()">Проверить</button>
+
+  <p id="result"></p>
+
+  <script src="script2.js"></script>
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('Service Worker зарегистрирован', reg))
+      .catch(err => console.error('Ошибка Service Worker:', err));
+  }
+</script>
+  
+  
