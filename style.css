@@ -68,7 +68,8 @@ button:hover {
   color: green; /* Цвет текста — зелёный (успешно) */
   text-align: center; /* Центрирование текста */
 }
-{
+/* Сброс и базовая настройка */
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
