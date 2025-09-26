@@ -1,19 +1,4 @@
-let touchStartY = 0;
 
-window.addEventListener('touchstart', function(e) {
-  if (e.touches.length !== 1) return;
-  touchStartY = e.touches[0].clientY;
-});
-
-window.addEventListener('touchmove', function(e) {
-  const touchCurrentY = e.touches[0].clientY;
-
-  // Если движение вниз и вверху страницы — предотвратить обновление
-  if (touchCurrentY - touchStartY > 10 && window.scrollY === 0) {
-    e.preventDefault();
-  }
-}, { passive: false });
-//верхний код запрещает свайпать вниз вверху приложения(перезапускать его)
 
 
 
