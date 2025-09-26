@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js')
@@ -400,7 +393,19 @@ const allQuestions = [
   });
 }
 
-  const selectedQuestions = getRandomQuestions(allQuestions, 10); // Выбираем 20 случайных вопросов
+const selectedQuestions = getOrGenerateQuestions();  //выбор вопросов из массива(рандомный)
+
+    function getOrGenerateQuestions() {
+  let saved = localStorage.getItem('currentQuestions');
+  if (saved) {
+    return JSON.parse(saved);
+  } else {
+    const questions = getRandomQuestions(allQuestions, 10);
+    localStorage.setItem('currentQuestions', JSON.stringify(questions));
+    return questions;
+  } //верхняя функция сохраняет вопросы, чтобы при обновлении старницы их нельзя было сбосить
+}
+
 loadQuiz(selectedQuestions); // Загружаем их на страницу
 
   function submitQuiz() {
@@ -415,4 +420,6 @@ loadQuiz(selectedQuestions); // Загружаем их на страницу
 
   const resultEl = document.getElementById("result");
   resultEl.textContent = `Ты набрал ${score} из ${selectedQuestions.length} баллов`;
+
+    localStorage.removeItem('currentQuestions'); //очистка сохраненых вопросов
 }
