@@ -1,14 +1,21 @@
-const CACHE_NAME = 'quiz-app-cache-v1';
+const CACHE_NAME = 'quiz-cache-v1';
+
 const urlsToCache = [
   '/',
   '/index.html',
-  '/style.css',
+  '/test1.html',
+  '/test2.html',
+  '/menu.html',
+  '/result.html',
   '/script.js',
+  '/script2.js',
+  '/style.css',
   '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png'
+  '/icons/icons-192png.png',
+  '/icons/icons-512png.png'
 ];
 
+// Установка: кэшируем нужные файлы
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -16,6 +23,22 @@ self.addEventListener('install', event => {
   );
 });
 
+// Активация: удаляем старый кэш, если есть
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(name => {
+          if (name !== CACHE_NAME) {
+            return caches.delete(name);
+          }
+        })
+      );
+    })
+  );
+});
+
+// Обработка запросов: сначала из кэша, потом из сети
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)

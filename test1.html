@@ -9,6 +9,8 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/icons/icons-192png.png">
+  <link rel="apple-touch-icon" href="/icons/icons-192png.png">
 </head>
 <body>
   <div id="quiz-container">
@@ -23,9 +25,9 @@
 
   <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(reg => console.log('Service Worker зарегистрирован', reg))
-      .catch(err => console.error('Ошибка Service Worker:', err));
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('✅ Service Worker зарегистрирован:', reg.scope))
+      .catch(err => console.error('❌ Ошибка регистрации SW:', err));
   }
 </script>
 </body>
