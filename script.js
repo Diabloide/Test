@@ -460,4 +460,4 @@ function showWarning() {
   warning.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-    localStorage.removeItem('currentQuestions'); //очистка сохраненых вопросов
+   
