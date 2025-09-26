@@ -410,16 +410,54 @@ loadQuiz(selectedQuestions); // Загружаем их на страницу
 
   function submitQuiz() {
   let score = 0;
+  let allAnswered = true; // флаг, указывающий, все ли вопросы заполнены
 
+  // Проверка: выбран ли ответ на каждый вопрос
   selectedQuestions.forEach((q, index) => {
     const selected = document.querySelector(`input[name="q${index}"]:checked`);
-    if (selected && parseInt(selected.value) === q.correctAnswer) {
-      score++;
+    if (!selected) {
+      allAnswered = false; // если хотя бы один не выбран — флаг сбрасывается
+    } else if (parseInt(selected.value) === q.correctAnswer) {
+      score++; // считаем правильные ответы
     }
   });
 
-  const resultEl = document.getElementById("result");
-  resultEl.textContent = `Ты набрал ${score} из ${selectedQuestions.length} баллов`;
+  // Проверка: если не все вопросы заполнены
+  if (!allAnswered) {
+    showWarning(); // выводим предупреждение
+    return; // прерываем выполнение, не переходим на result.html
+  }
+
+  // Если всё заполнено — сохраняем и переходим к результату
+  localStorage.setItem('quizResult', score);
+  localStorage.setItem('quizTotal', selectedQuestions.length);
+  window.location.href = 'result.html';
+}
+
+function showWarning() {
+  // Проверим, есть ли уже сообщение
+  let warning = document.getElementById('warning-message');
+
+  if (!warning) {
+    warning = document.createElement('p');
+    warning.id = 'warning-message';
+    warning.textContent = 'Ответьте на все вопросы!!!';
+
+    // Стили
+    warning.style.color = 'red';
+    warning.style.fontWeight = 'bold';
+    warning.style.marginTop = '15px';
+    warning.style.textAlign = 'center'; // Центрируем текст
+    warning.style.width = '100%';       // Растягиваем по ширине
+    warning.style.fontSize = '18px';
+
+    // Вставляем под кнопку
+    const button = document.querySelector('button[onclick="submitQuiz()"]');
+    button.insertAdjacentElement('afterend', warning);
+  }
+
+  // Плавная прокрутка к сообщению
+  warning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 
     localStorage.removeItem('currentQuestions'); //очистка сохраненых вопросов
-}

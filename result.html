@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Результат</title>
+  <style>
+    body {
+      display: flex;               /* Используем флексбокс */
+      justify-content: center;    /* Центрирование по горизонтали */
+      align-items: center;        /* Центрирование по вертикали */
+      height: 100vh;              /* Полная высота экрана */
+      margin: 0;
+      background-color: #f0f0f0;  /* Светло-серый фон */
+      font-family: sans-serif;
+    }
+
+    #result {
+      font-size: 36px;            /* Крупный шрифт */
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="result">Загрузка результата...</div>
+
+  <script>
+    // Получаем результат из localStorage
+    const result = localStorage.getItem('quizResult');
+    const total = localStorage.getItem('quizTotal');
+    const resultEl = document.getElementById('result');
+
+    if (result !== null && total !== null) {
+      const score = parseInt(result); // Преобразуем в число
+      resultEl.textContent = `Ты набрал ${score} из ${total} баллов`;
+
+      // Меняем цвет текста в зависимости от результата
+      if (score >= 8 && score <= 10) {
+        resultEl.style.color = 'green'; // Отлично
+      } else if (score >= 5 && score <= 7) {
+        resultEl.style.color = 'orange'; // Удовлетворительно
+      } else if ( score < 5 ) {
+        resultEl.style.color = 'red'; // Плохо
+      } else {
+        resultEl.style.color = 'black'; // По умолчанию
+      }
+    } else {
+      resultEl.textContent = 'Результат не найден';
+    }
+
+    // Очищаем всё, чтобы при следующем запуске был новый тест
+    localStorage.removeItem('quizResult');
+    localStorage.removeItem('quizTotal');
+    localStorage.removeItem('currentQuestions');
+  </script>
+</body>
+</html>
