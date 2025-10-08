@@ -1,4 +1,5 @@
-const CACHE_NAME = 'quiz-cache-v2'; // поменял версию!
+const CACHE_NAME = 'quiz-cache-v1';
+
 const urlsToCache = [
   '/',
   '/index.html',
@@ -14,38 +15,38 @@ const urlsToCache = [
   '/icons/icons-512png.png'
 ];
 
-// Установка
+// Установка: кэшируем нужные файлы
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
   );
-  self.skipWaiting(); // Активируем новый сервис-воркер сразу
 });
 
-// Активация
+// Активация: удаляем старый кэш, если есть
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys => {
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
+        cacheNames.map(name => {
+          if (name !== CACHE_NAME) {
+            return caches.delete(name);
           }
         })
       );
     })
   );
-  self.clients.claim(); // Позволяем сервис-воркеру контролировать страницу сразу
 });
 
-// Фетч
+// Обработка запросов: сначала из кэша, потом из сети
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
+    caches.match(event.request)
+      .then(response => response || fetch(event.request))
   );
 });
 
-// Отправка сообщения клиентам при обновлении
+// **Обработка сообщения от главного скрипта для пропуска ожидания**
 self.addEventListener('message', event => {
   if (event.data === 'skipWaiting') {
     self.skipWaiting();
