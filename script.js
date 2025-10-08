@@ -30,13 +30,16 @@ if ('serviceWorker' in navigator) {
 }
 
 
-const DATA_VERSION = '9'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
+const DATA_VERSION = '9.1'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
 const savedVersion = localStorage.getItem('dataVersion');
 
 if (savedVersion !== DATA_VERSION) {
   localStorage.removeItem('currentQuestions');
   localStorage.setItem('dataVersion', DATA_VERSION);
 }
+
+localStorage.removeItem('currentQuestions');
+localStorage.setItem('dataVersion', DATA_VERSION);
 
 const allQuestions = [
   //1
