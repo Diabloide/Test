@@ -30,7 +30,7 @@ if ('serviceWorker' in navigator) {
 }
 
 
-const DATA_VERSION = '8.1'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
+const DATA_VERSION = '8.2'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
 const savedVersion = localStorage.getItem('dataVersion');
 
 if (savedVersion !== DATA_VERSION) {
@@ -421,7 +421,7 @@ const allQuestions = [
   });
 }
 
-const selectedQuestions = getOrGenerateQuestions();  //выбор вопросов из массива(рандомный)
+
 
     function getOrGenerateQuestions() {
   let saved = localStorage.getItem('currentQuestions');
@@ -433,7 +433,7 @@ const selectedQuestions = getOrGenerateQuestions();  //выбор вопросо
     return questions;
   } //верхняя функция сохраняет вопросы, чтобы при обновлении старницы их нельзя было сбосить
 }
-
+const selectedQuestions = getOrGenerateQuestions();  //выбор вопросов из массива(рандомный)
 loadQuiz(selectedQuestions); // Загружаем их на страницу
 
   function submitQuiz() {
