@@ -400,7 +400,7 @@ const selectedQuestions = getOrGenerateQuestions();  //выбор вопросо
   if (saved) {
     return JSON.parse(saved);
   } else {
-    const questions = getRandomQuestions(allQuestions, 10);
+    const questions = getRandomQuestions(allQuestions, 1);
     localStorage.setItem('currentQuestions', JSON.stringify(questions));
     return questions;
   } //верхняя функция сохраняет вопросы, чтобы при обновлении старницы их нельзя было сбосить
