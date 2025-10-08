@@ -14,14 +14,49 @@
   <link rel="apple-touch-icon" href="/icons/icons-192png.png">
 </head>
 <body>
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed') {
+          if (navigator.serviceWorker.controller) {
+            // Новый сервис-воркер готов, уведомляем пользователя
+            if (confirm("Доступна новая версия приложения. Обновить сейчас?")) {
+              newWorker.postMessage('skipWaiting');
+              window.location.reload();
+            }
+          }
+        }
+      };
+    };
+  });
+}
+
   <h1>Добро пожаловать в Тестовое Приложение</h1>
   <button onclick="location.href='menu.html'">Перейти к меню</button>
 
   <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('✅ Service Worker зарегистрирован:', reg.scope))
-      .catch(err => console.error('❌ Ошибка регистрации SW:', err));
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => {
+          console.log('✅ Service Worker зарегистрирован:', reg.scope);
+
+          // Следим за обновлением
+          reg.onupdatefound = () => {
+            const newWorker = reg.installing;
+            newWorker.onstatechange = () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Новая версия доступна
+                alert("🚀 Доступна новая версия! Перезагрузите страницу для обновления.");
+              }
+            };
+          };
+        })
+        .catch(err => console.error('❌ Ошибка регистрации Service Worker:', err));
+    });
   }
 </script>
 </body>

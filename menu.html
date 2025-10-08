@@ -13,6 +13,26 @@
   <link rel="apple-touch-icon" href="/icons/icons-192png.png">
 </head>
 <body>
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed') {
+          if (navigator.serviceWorker.controller) {
+            // Новый сервис-воркер готов, уведомляем пользователя
+            if (confirm("Доступна новая версия приложения. Обновить сейчас?")) {
+              newWorker.postMessage('skipWaiting');
+              window.location.reload();
+            }
+          }
+        }
+      };
+    };
+  });
+}
+
   <div class="menu-page">
     <h1>Меню тестов</h1>
     <div class="menu-buttons">
