@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-const DATA_VERSION = '1'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
+const DATA_VERSION = '5'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
 const savedVersion = localStorage.getItem('dataVersion');
 
 if (savedVersion !== DATA_VERSION) {
@@ -408,7 +408,7 @@ const selectedQuestions = getOrGenerateQuestions();  //выбор вопросо
   if (saved) {
     return JSON.parse(saved);
   } else {
-    const questions = getRandomQuestions(allQuestions, 10);
+    const questions = getRandomQuestions(allQuestions, 1);
     localStorage.setItem('currentQuestions', JSON.stringify(questions));
     return questions;
   } //верхняя функция сохраняет вопросы, чтобы при обновлении старницы их нельзя было сбосить
