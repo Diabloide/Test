@@ -30,7 +30,7 @@ if ('serviceWorker' in navigator) {
 }
 
 
-const DATA_VERSION = '8.3'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
+const DATA_VERSION = '9'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
 const savedVersion = localStorage.getItem('dataVersion');
 
 if (savedVersion !== DATA_VERSION) {
