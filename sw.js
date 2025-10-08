@@ -1,4 +1,4 @@
-const CACHE_NAME = 'quiz-cache-v5';
+const CACHE_NAME = 'quiz-cache-v6';
 
 const urlsToCache = [
   '/',
@@ -47,6 +47,14 @@ self.addEventListener('fetch', event => {
 });
 
 // **Обработка сообщения от главного скрипта для пропуска ожидания**
+self.addEventListener('message', event => {
+  if (event.data === 'skipWaiting') {
+    self.skipWaiting();
+  }
+});
+
+
+
 self.addEventListener('message', event => {
   if (event.data === 'skipWaiting') {
     self.skipWaiting();

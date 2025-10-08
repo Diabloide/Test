@@ -1,16 +1,36 @@
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(registration => {
-        console.log('Service Worker зарегистрирован с областью:', registration.scope);
-      })
-      .catch(error => {
-        console.log('Ошибка регистрации Service Worker:', error);
-      });
+  navigator.serviceWorker.register('/sw.js').then(registration => {
+    console.log('Service Worker зарегистрирован:', registration.scope);
+
+    registration.onupdatefound = () => {
+      const newWorker = registration.installing;
+
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed') {
+          // Если уже есть активный контроллер, значит новая версия установлена
+          if (navigator.serviceWorker.controller) {
+            // Здесь можно предложить обновиться или обновить автоматически:
+            console.log('Новая версия доступна!');
+
+            // Автоматически просим сервис-воркер перейти в активное состояние
+            newWorker.postMessage('skipWaiting');
+          } else {
+            console.log('Сервис-воркер установлен впервые.');
+          }
+        }
+      };
+    };
+  });
+
+  // Слушаем событие controllerchange — это значит, что новый сервис-воркер активировался
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    console.log('Контроллер изменился — обновляем страницу');
+    window.location.reload();
   });
 }
 
-const DATA_VERSION = '5'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
+
+const DATA_VERSION = '6'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
 const savedVersion = localStorage.getItem('dataVersion');
 
 if (savedVersion !== DATA_VERSION) {
