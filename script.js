@@ -30,7 +30,7 @@ if ('serviceWorker' in navigator) {
 }
 
 
-const DATA_VERSION = '9.4'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
+const DATA_VERSION = '9.5'; // Поменяй на '2', '3' и т.д. при обновлении вопросов
 const savedVersion = localStorage.getItem('dataVersion');
 
 if (savedVersion !== DATA_VERSION) {
@@ -694,40 +694,16 @@ const allQuestions = [
 
 ]
 
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let selectedQuestions = [];
 
-
-  function getRandomQuestions(sourceArray, numberOfQuestions) {
-  const shuffled = [...sourceArray].sort(() => 0.5 - Math.random()); // Перемешиваем копию массива
-  return shuffled.slice(0, numberOfQuestions); // Возвращаем первые N (20) вопросов
+function getRandomQuestions(sourceArray, numberOfQuestions) {
+  const shuffled = [...sourceArray].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, numberOfQuestions);
 }
 
-  function loadQuiz(selectedQuestions) {
-  const container = document.getElementById("quiz-container"); // Получаем контейнер из HTML
-  container.innerHTML = ""; // Очищаем его содержимое
-
-  selectedQuestions.forEach((q, index) => { // Перебираем вопросы
-    const questionEl = document.createElement("div"); // Создаём div для вопроса
-    questionEl.innerHTML = `<p><strong>${q.question}</strong></p>`; // Вставляем текст вопроса
-
-    q.options.forEach((option, i) => { // Перебираем варианты ответа
-      const id = `q${index}_opt${i}`; // Уникальный id для радиокнопки
-
-      questionEl.innerHTML += `
-        <label>
-          <input type="radio" name="q${index}" value="${i}" id="${id}">
-          ${option}
-        </label><br>
-      `; // Добавляем радио-кнопку и текст варианта
-    });
-
-    container.appendChild(questionEl); // Добавляем вопрос на страницу
-    container.appendChild(document.createElement("hr")); // Горизонтальная линия
-  });
-}
-
-
-
-    function getOrGenerateQuestions() {
+function getOrGenerateQuestions() {
   let saved = localStorage.getItem('currentQuestions');
   if (saved) {
     return JSON.parse(saved);
@@ -735,61 +711,174 @@ const allQuestions = [
     const questions = getRandomQuestions(allQuestions, 10);
     localStorage.setItem('currentQuestions', JSON.stringify(questions));
     return questions;
-  } //верхняя функция сохраняет вопросы, чтобы при обновлении старницы их нельзя было сбосить
+  }
 }
-const selectedQuestions = getOrGenerateQuestions();  //выбор вопросов из массива(рандомный)
-loadQuiz(selectedQuestions); // Загружаем их на страницу
 
-  function submitQuiz() {
-  let score = 0;
-  let allAnswered = true; // флаг, указывающий, все ли вопросы заполнены
+function loadQuiz(questions) {
+  const container = document.getElementById("quiz-container");
+  container.innerHTML = "";
 
-  // Проверка: выбран ли ответ на каждый вопрос
-  selectedQuestions.forEach((q, index) => {
-    const selected = document.querySelector(`input[name="q${index}"]:checked`);
-    if (!selected) {
-      allAnswered = false; // если хотя бы один не выбран — флаг сбрасывается
-    } else if (parseInt(selected.value) === q.correctAnswer) {
-      score++; // считаем правильные ответы
-    }
+  const q = questions[currentQuestionIndex];
+  
+  const questionEl = document.createElement("div");
+  questionEl.innerHTML = `
+    <div class="progress">Вопрос ${currentQuestionIndex + 1} из ${questions.length}</div>
+    <p><strong>${q.question}</strong></p>
+  `;
+
+  q.options.forEach((option, i) => {
+    const id = `q${currentQuestionIndex}_opt${i}`;
+    const isChecked = userAnswers[currentQuestionIndex] === i ? 'checked' : '';
+
+    questionEl.innerHTML += `
+      <label>
+        <input type="radio" name="question" value="${i}" id="${id}" ${isChecked}>
+        ${option}
+      </label><br>
+    `;
   });
 
-  // Проверка: если не все вопросы заполнены
-  if (!allAnswered) {
-    showWarning(); // выводим предупреждение
-    return; // прерываем выполнение, не переходим на result.html
+  container.appendChild(questionEl);
+
+  // Управляем кнопкой "Проверить" из HTML
+  const oldButton = document.querySelector('button[onclick="submitQuiz()"]');
+  if (oldButton) {
+    if (currentQuestionIndex === questions.length - 1) {
+      oldButton.style.display = 'block';
+      oldButton.textContent = 'Завершить тест';
+      oldButton.className = 'submit-btn';
+    } else {
+      oldButton.style.display = 'none';
+    }
   }
 
-  // Если всё заполнено — сохраняем и переходим к результату
+  // Кнопки навигации - СНАЧАЛА НАЗАД, ПОТОМ ДАЛЕЕ
+  const navButtons = document.createElement("div");
+  navButtons.className = "nav-buttons";
+
+  if (currentQuestionIndex > 0) {
+    navButtons.innerHTML += `<button onclick="prevQuestion()" class="nav-btn">← Назад</button>`;
+  }
+
+  if (currentQuestionIndex < questions.length - 1) {
+    navButtons.innerHTML += `<button onclick="nextQuestion()" class="nav-btn">Далее →</button>`;
+  } else {
+    navButtons.innerHTML += `<button onclick="submitQuiz()" class="submit-btn">Завершить тест</button>`;
+  }
+
+  // Добавляем кнопки навигации в контейнер
+  container.appendChild(navButtons);
+} // ← ЭТА ЗАКРЫВАЮЩАЯ СКОБКА БЫЛА ПРОПУЩЕНА!
+
+function nextQuestion() {
+  saveCurrentAnswer();
+  
+  if (currentQuestionIndex < selectedQuestions.length - 1) {
+    currentQuestionIndex++;
+    loadQuiz(selectedQuestions);
+  }
+}
+
+function prevQuestion() {
+  saveCurrentAnswer();
+  
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    loadQuiz(selectedQuestions);
+  }
+}
+
+function saveCurrentAnswer() {
+  const selected = document.querySelector('input[name="question"]:checked');
+  if (selected) {
+    userAnswers[currentQuestionIndex] = parseInt(selected.value);
+  }
+}
+
+function submitQuiz() {
+  saveCurrentAnswer();
+  
+  let allAnswered = true;
+  let unansweredQuestions = [];
+
+  // Проверяем все вопросы
+  for (let i = 0; i < selectedQuestions.length; i++) {
+    if (userAnswers[i] === undefined) {
+      allAnswered = false;
+      unansweredQuestions.push(i + 1);
+    }
+  }
+
+  if (!allAnswered) {
+    // Показываем сообщение НА СТРАНИЦЕ (не alert)
+    showWarning(unansweredQuestions);
+    
+    // Не переходим сразу - даем пользователю прочитать сообщение
+    // currentQuestionIndex = unansweredQuestions[0] - 1;
+    // loadQuiz(selectedQuestions);
+    return;
+  }
+
+  // Если все отвечено - считаем баллы и переходим
+  let score = 0;
+  for (let i = 0; i < selectedQuestions.length; i++) {
+    if (userAnswers[i] === selectedQuestions[i].correctAnswer) {
+      score++;
+    }
+  }
+
   localStorage.setItem('quizResult', score);
   localStorage.setItem('quizTotal', selectedQuestions.length);
   window.location.href = 'result.html';
 }
 
-function showWarning() {
-  // Проверим, есть ли уже сообщение
-  let warning = document.getElementById('warning-message');
 
-  if (!warning) {
-    warning = document.createElement('p');
-    warning.id = 'warning-message';
-    warning.textContent = 'Ответьте на все вопросы!!!';
-
-    // Стили
-    warning.style.color = 'red';
-    warning.style.fontWeight = 'bold';
-    warning.style.marginTop = '15px';
-    warning.style.textAlign = 'center'; // Центрируем текст
-    warning.style.width = '100%';       // Растягиваем по ширине
-    warning.style.fontSize = '18px';
-
-    // Вставляем под кнопку
-    const button = document.querySelector('button[onclick="submitQuiz()"]');
-    button.insertAdjacentElement('afterend', warning);
+function showWarning(unansweredQuestions) {
+  console.log("showWarning вызвана с вопросами:", unansweredQuestions);
+  
+  let oldWarning = document.getElementById('warning-message');
+  if (oldWarning) {
+    oldWarning.remove();
   }
 
-  // Плавная прокрутка к сообщению
-  warning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  let warning = document.createElement('div');
+  warning.id = 'warning-message';
+  
+  const questionsText = unansweredQuestions.join(', ');
+  warning.innerHTML = `
+    <div style="color: red; font-weight: bold; text-align: center; margin: 15px 0; padding: 15px; background: #ffe6e6; border-radius: 8px; border: 2px solid #ff4444;">
+      ⚠️ <strong>ВНИМАНИЕ!</strong><br>
+      Вы ответили не на все вопросы!<br>
+      <strong>Не отвечены вопросы: ${questionsText}</strong><br>
+      <em>Пожалуйста, вернитесь и ответьте на все вопросы перед завершением теста.</em>
+    </div>
+  `;
+
+  const container = document.getElementById("quiz-container");
+  if (container) {
+    container.insertAdjacentElement('afterbegin', warning);
+    console.log("Сообщение добавлено в контейнер");
+
+    warning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    setTimeout(() => {
+      if (warning && warning.parentNode) {
+        warning.style.transition = 'opacity 0.5s ease';
+        warning.style.opacity = '0';
+        setTimeout(() => {
+          if (warning && warning.parentNode) {
+            warning.remove();
+            console.log("Сообщение скрыто");
+          }
+        }, 500);
+      }
+    }, 5000);
+  } else {
+    console.error("Контейнер quiz-container не найден!");
+  }
 }
 
-   
+// Инициализация
+selectedQuestions = getOrGenerateQuestions();
+userAnswers = new Array(selectedQuestions.length);
+loadQuiz(selectedQuestions);

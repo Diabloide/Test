@@ -124,3 +124,59 @@ html, body {
 .menu-button:hover {
   background-color: #303f9f;
 }
+
+
+/* Стили для кнопок навигации */
+.nav-buttons {
+  text-align: center;
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 120px;
+}
+
+.nav-btn:hover {
+  background-color: #303f9f;
+}
+
+.submit-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 150px;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 480px) {
+  .nav-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .nav-btn, .submit-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
