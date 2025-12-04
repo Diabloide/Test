@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Установить приложение</title>
+    <style>
+        /* === ВСЕ СТИЛИ ОСТАЮТСЯ ЗДЕСЬ === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3f51b5, #2196F3);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .container {
+            background: white;
+            color: #333;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #3f51b5;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin: 20px 0;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .instructions {
+            text-align: left;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            border-left: 4px solid #007AFF;
+        }
+        
+        .step {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .step:before {
+            content: "➡️";
+            position: absolute;
+            left: 0;
+        }
+        
+        .device-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- === ВСЯ РАЗМЕТКА ОСТАЕТСЯ ЗДЕСЬ === -->
+    <div class="container">
+        <div class="icon">📱</div>
+        <h1>Установить Тест-приложение</h1>
+        <p>Добавьте приложение на главный экран телефона</p>
+        
+        <!-- Кнопка для Android -->
+        <button id="install-btn" class="btn hidden">
+            ⚡ Установить приложение
+        </button>
+        
+        <!-- Сообщение если кнопка не доступна -->
+        <div id="not-supported" class="device-warning">
+            <p><strong>Установка через кнопку доступна только на Android</strong></p>
+        </div>
+        
+        <!-- Инструкция для всех -->
+        <div class="instructions">
+            <h3>📋 Инструкция по установке:</h3>
+            
+            <div class="step">Откройте приложение в браузере</div>
+            
+            <div id="android-steps" class="hidden">
+                <div class="step">Нажмите кнопку "Установить" выше</div>
+                <div class="step">Или в меню (3 точки) → "Добавить на главный экран"</div>
+            </div>
+            
+            <div id="ios-steps" class="hidden">
+                <div class="step">В Safari нажмите "Поделиться" (📤)</div>
+                <div class="step">Выберите "На экран «Домой»"</div>
+                <div class="step">Нажмите "Добавить"</div>
+            </div>
+            
+            <div class="step">Приложение появится на рабочем столе</div>
+        </div>
+        
+        <a href="index.html" style="
+            display: inline-block;
+            margin-top: 20px;
+            color: #3f51b5;
+            font-size: 16px;
+            text-decoration: none;
+        ">
+            ▶️ Перейти к приложению
+        </a>
+        
+        <div class="footer">
+            Работает на Android 5.0+ и iOS 12.2+
+        </div>
+    </div>
+
+    <!-- === ВЕСЬ JavaScript ОСТАЕТСЯ ЗДЕСЬ === -->
+    <script>
+        // Определяем устройство
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        
+        // Элементы страницы
+        const installBtn = document.getElementById('install-btn');
+        const notSupportedMsg = document.getElementById('not-supported');
+        const androidSteps = document.getElementById('android-steps');
+        const iosSteps = document.getElementById('ios-steps');
+        
+        // Показываем инструкцию для нужного устройства
+        if (isAndroid) {
+            androidSteps.style.display = 'block';
+            notSupportedMsg.style.display = 'none';
+        } else if (isIOS) {
+            iosSteps.style.display = 'block';
+            notSupportedMsg.style.display = 'none';
+        }
+        
+        // Переменная для установки PWA
+        let deferredPrompt;
+        
+        // 1. Ловим событие установки (работает только на Android Chrome)
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt сработал');
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Показываем кнопку установки
+            installBtn.style.display = 'block';
+            notSupportedMsg.style.display = 'none';
+        });
+        
+        // 2. Обработчик клика по кнопке
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) {
+                alert('Установка не поддерживается на вашем устройстве. Используйте инструкцию выше.');
+                return;
+            }
+            
+            // Показываем диалог установки
+            deferredPrompt.prompt();
+            
+            // Ждем ответ пользователя
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('Пользователь установил приложение');
+                installBtn.textContent = '✅ Установлено!';
+                installBtn.disabled = true;
+            } else {
+                console.log('Пользователь отказался от установки');
+            }
+            
+            deferredPrompt = null;
+        });
+        
+        // 3. Если приложение уже установлено как PWA
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installBtn.style.display = 'none';
+            notSupportedMsg.innerHTML = '<p><strong>✅ Приложение уже установлено!</strong></p>';
+        }
+        
+        // 4. Если через 3 секунды кнопка не показалась (старый браузер)
+        setTimeout(() => {
+            if (installBtn.style.display === 'none' && isAndroid) {
+                notSupportedMsg.innerHTML = 
+                    '<p><strong>Ваш браузер не поддерживает установку через кнопку.</strong><br>' +
+                    'Используйте меню браузера (3 точки) → "Добавить на главный экран"</p>';
+                notSupportedMsg.style.display = 'block';
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
