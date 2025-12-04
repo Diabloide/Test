@@ -752,23 +752,26 @@ function loadQuiz(questions) {
     }
   }
 
-  // Кнопки навигации - СНАЧАЛА НАЗАД, ПОТОМ ДАЛЕЕ
+    // Кнопки навигации - СНАЧАЛА ДАЛЕЕ, ПОТОМ НАЗАД
   const navButtons = document.createElement("div");
   navButtons.className = "nav-buttons";
 
-  if (currentQuestionIndex > 0) {
-    navButtons.innerHTML += `<button onclick="prevQuestion()" class="nav-btn">← Назад</button>`;
-  }
-
   if (currentQuestionIndex < questions.length - 1) {
+    // Далее - сверху/первая кнопка
     navButtons.innerHTML += `<button onclick="nextQuestion()" class="nav-btn">Далее →</button>`;
   } else {
+    // На последнем вопросе - кнопка завершения
     navButtons.innerHTML += `<button onclick="submitQuiz()" class="submit-btn">Завершить тест</button>`;
+  }
+
+  if (currentQuestionIndex > 0) {
+    // Назад - снизу/вторая кнопка
+    navButtons.innerHTML += `<button onclick="prevQuestion()" class="nav-btn">← Назад</button>`;
   }
 
   // Добавляем кнопки навигации в контейнер
   container.appendChild(navButtons);
-} // ← ЭТА ЗАКРЫВАЮЩАЯ СКОБКА БЫЛА ПРОПУЩЕНА!
+} 
 
 function nextQuestion() {
   saveCurrentAnswer();
