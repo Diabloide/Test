@@ -4,53 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Установка Тест-приложения</title>
-    <script>
-        // Определяем устройство и предлагаем оптимальный вариант
-        function detectDevice() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isAndroid = /android/.test(userAgent);
-            const isIOS = /iphone|ipad|ipod/.test(userAgent);
-            
-            if (isAndroid) {
-                // Для Android: пытаемся установить PWA, если не получается - APK
-                setTimeout(() => {
-                    if (!window.matchMedia('(display-mode: standalone)').matches) {
-                        // Если не установлено как PWA, показываем кнопку установки
-                        document.getElementById('android-section').style.display = 'block';
-                    }
-                }, 1000);
-                
-                // Авто-установка PWA (если поддерживается)
-                let deferredPrompt;
-                window.addEventListener('beforeinstallprompt', (e) => {
-                    e.preventDefault();
-                    deferredPrompt = e;
-                    deferredPrompt.prompt();
-                });
-                
-            } else if (isIOS) {
-                // Для iOS: инструкция по установка
-                document.getElementById('ios-section').style.display = 'block';
-            } else {
-                // Для других устройств - веб-версия
-                document.getElementById('web-section').style.display = 'block';
-            }
-        }
-        
-        // Автоматическая установка APK (для Android)
-        function installAPK() {
-            // Замените 'test-app.apk' на имя вашего APK файла
-            window.location.href = 'test-app.apk';
-        }
-        
-        // Открыть как PWA
-        function openAsPWA() {
-            window.location.href = 'index.html';
-        }
-        
-        // Запуск при загрузке страницы
-        window.onload = detectDevice;
-    </script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -59,99 +12,131 @@
             background: linear-gradient(135deg, #3f51b5, #2196F3);
             color: white;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .container {
             background: white;
             color: #333;
             border-radius: 20px;
-            padding: 30px;
+            padding: 40px 30px;
             max-width: 500px;
-            margin: 0 auto;
+            width: 90%;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 15px 0;
-            background: #3f51b5;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            transform: scale(1.05);
-            background: #303f9f;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .btn-ios {
-            background: #007AFF;
-        }
-        
-        .btn-ios:hover {
-            background: #0056CC;
-        }
-        
-        .btn-android {
-            background: #4CAF50;
-        }
-        
-        .btn-android:hover {
-            background: #45a049;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
         .icon {
-            font-size: 60px;
-            margin: 20px;
-            animation: bounce 2s infinite;
+            font-size: 70px;
+            margin: 0 0 20px 0;
+            animation: pulse 2s infinite;
         }
         
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .instructions {
-            text-align: left;
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-size: 14px;
-            border-left: 4px solid #3f51b5;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         h1 {
             color: #3f51b5;
-            margin-bottom: 10px;
+            margin: 0 0 10px 0;
         }
         
-        p {
+        .subtitle {
             color: #666;
-            line-height: 1.6;
-        }
-        
-        .loading {
+            margin-bottom: 30px;
             font-size: 16px;
-            color: #666;
-            margin: 20px 0;
+        }
+        
+        .device-choice {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .device-btn {
+            flex: 1;
+            min-width: 140px;
+            padding: 20px 15px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .device-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .android-btn:hover {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .ios-btn:hover {
+            background: #007AFF;
+            color: white;
+        }
+        
+        .instructions {
+            text-align: left;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            display: none;
+            border-left: 4px solid #3f51b5;
+        }
+        
+        .step {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .step:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .open-app-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin: 25px 0 15px 0;
+            background: #3f51b5;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .open-app-btn:hover {
+            background: #303f9f;
+            transform: scale(1.03);
+        }
+        
+        .footer {
+            margin-top: 25px;
+            color: #888;
+            font-size: 12px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
         }
     </style>
 </head>
@@ -159,66 +144,83 @@
     <div class="container">
         <div class="icon">📱</div>
         <h1>Тест-приложение</h1>
-        <p>Установите приложение для прохождения тестов</p>
+        <p class="subtitle">Выберите ваше устройство для инструкции по установке</p>
         
-        <div class="loading" id="loading">
-            Определяем ваше устройство...
+        <div class="device-choice">
+            <button class="device-btn android-btn" onclick="showInstructions('android')">
+                🤖 Android
+            </button>
+            <button class="device-btn ios-btn" onclick="showInstructions('ios')">
+                🍎 iPhone/iPad
+            </button>
         </div>
         
-        <!-- Android секция -->
-        <div id="android-section" class="hidden">
-            <button class="btn btn-android" onclick="openAsPWA()">
-                ⚡ Установить как PWA-приложение
+        <!-- Инструкции для Android -->
+        <div id="android-instructions" class="instructions">
+            <h3 style="margin-top: 0; color: #4CAF50;">Установка на Android:</h3>
+            <div class="step">Откройте приложение в браузере Chrome</div>
+            <div class="step">Нажмите меню (3 точки вверху справа)</div>
+            <div class="step">Выберите "Добавить на главный экран"</div>
+            <div class="step">Подтвердите установку</div>
+            <button class="open-app-btn" onclick="openApp()">
+                📲 Открыть приложение
             </button>
-            <p><small>Рекомендуется - работает без скачивания, как родное приложение</small></p>
-            
-            <button class="btn" onclick="installAPK()">
-                📦 Скачать APK файл
-            </button>
-            <p><small>Альтернативный вариант, если PWA не работает</small></p>
-            
-            <div class="instructions">
-                <strong>📝 После установки PWA:</strong><br>
-                • Приложение появится на рабочем столе<br>
-                • Работает офлайн<br>
-                • Не занимает много места
-            </div>
         </div>
         
-        <!-- iOS секция -->
-        <div id="ios-section" class="hidden">
-            <button class="btn btn-ios" onclick="openAsPWA()">
-                🌐 Открыть в Safari для установки
+        <!-- Инструкции для iOS -->
+        <div id="ios-instructions" class="instructions">
+            <h3 style="margin-top: 0; color: #007AFF;">Установка на iPhone/iPad:</h3>
+            <div class="step">Откройте в Safari (важно!)</div>
+            <div class="step">Нажмите кнопку "Поделиться" (📤)</div>
+            <div class="step">Прокрутите вниз до "На экран «Домой»"</div>
+            <div class="step">Нажмите "Добавить"</div>
+            <button class="open-app-btn" onclick="openApp()">
+                📲 Открыть приложение
             </button>
-            
-            <div class="instructions">
-                <strong>📱 Как установить на iPhone/iPad:</strong><br>
-                1. Нажмите кнопку выше<br>
-                2. В Safari нажмите кнопку "Поделиться" (📤)<br>
-                3. Прокрутите вниз до "На экран «Домой»"<br>
-                4. Нажмите "Добавить"<br>
-                5. Готово! Приложение на рабочем столе
-            </div>
         </div>
         
-        <!-- Веб-версия -->
-        <div id="web-section" class="hidden">
-            <button class="btn" onclick="openAsPWA()">
-                🌐 Открыть веб-версию
-            </button>
-            <p><small>Для компьютеров или если установка не требуется</small></p>
-        </div>
-        
-        <div style="margin-top: 30px; color: #666; font-size: 12px; border-top: 1px solid #eee; padding-top: 15px;">
-            ✓ Android 5.0+ | iOS 12.2+ | Все современные браузеры
+        <div class="footer">
+            Приложение работает без установки в любом браузере
         </div>
     </div>
-    
+
     <script>
-        // Скрываем loading через 2 секунды
-        setTimeout(() => {
-            document.getElementById('loading').style.display = 'none';
-        }, 2000);
+        function showInstructions(device) {
+            // Скрываем все инструкции
+            document.getElementById('android-instructions').style.display = 'none';
+            document.getElementById('ios-instructions').style.display = 'none';
+            
+            // Показываем нужную
+            if (device === 'android') {
+                document.getElementById('android-instructions').style.display = 'block';
+            } else if (device === 'ios') {
+                document.getElementById('ios-instructions').style.display = 'block';
+            }
+            
+            // Прокручиваем к инструкциям
+            document.querySelector('.instructions').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+        
+        function openApp() {
+            // Просто открываем главную страницу приложения
+            window.location.href = 'index.html';
+        }
+        
+        // Автоопределение устройства и показ инструкций
+        window.onload = function() {
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            
+            if (isAndroid) {
+                showInstructions('android');
+            } else if (isIOS) {
+                showInstructions('ios');
+            }
+            // Если не определили - оставляем выбор
+        }
     </script>
 </body>
 </html>
