@@ -12,138 +12,107 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f7;
             color: #1d1d1f;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
         }
         
-        /* Контейнер */
-        .device-frame {
-            width: 100%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
         }
         
-        /* iOS стиль заголовка */
-        .ios-header {
-            background: linear-gradient(135deg, #007AFF, #0056CC);
-            color: white;
-            padding: 30px 25px 25px;
+        /* Шапка */
+        .header {
             text-align: center;
-            position: relative;
+            margin-bottom: 40px;
         }
         
-        .ios-header:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 20px;
-            right: 20px;
-            height: 20px;
-            background: inherit;
-            filter: blur(20px);
-            opacity: 0.3;
-        }
-        
-        .app-icon-large {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #FF2D55, #FF375F);
-            border-radius: 22px;
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #007AFF, #0056CC);
+            border-radius: 20px;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            box-shadow: 0 15px 30px rgba(255, 45, 85, 0.3);
+            font-size: 36px;
+            color: white;
         }
         
-        .app-title {
+        h1 {
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 5px;
-            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            color: #1d1d1f;
         }
         
-        .app-subtitle {
-            font-size: 16px;
-            opacity: 0.9;
-            font-weight: 400;
-        }
-        
-        /* Android стиль */
-        .android-header {
-            background: #1a1a1a;
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
-        
-        .android-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            border-radius: 20px;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-        }
-        
-        /* Контент */
-        .content {
-            padding: 30px;
-        }
-        
-        .device-detect {
-            text-align: center;
-            padding: 30px;
-        }
-        
-        .detect-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        /* iOS установка */
-        .ios-install {
-            display: none;
-        }
-        
-        .ios-steps {
-            background: #f2f2f7;
-            border-radius: 18px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-        
-        .ios-step {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
+        .subtitle {
+            color: #86868b;
             font-size: 17px;
         }
         
+        /* Карточка устройства */
+        .device-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e5e7;
+        }
+        
+        .device-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .device-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .android-icon {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .ios-icon {
+            background: #007AFF;
+            color: white;
+        }
+        
+        .device-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        /* Шаги установки */
+        .steps {
+            margin: 20px 0;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin: 15px 0;
+            padding-left: 10px;
+        }
+        
         .step-number {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             background: #007AFF;
             color: white;
             border-radius: 50%;
@@ -152,57 +121,33 @@
             justify-content: center;
             margin-right: 15px;
             font-weight: 600;
+            font-size: 14px;
             flex-shrink: 0;
         }
         
-        /* Android установка */
-        .android-install {
-            display: none;
-        }
-        
-        .android-card {
-            background: #f8f9fa;
-            border-radius: 18px;
-            padding: 25px;
-            margin: 25px 0;
-            border: 1px solid #e5e5ea;
-        }
-        
-        .permission-item {
-            display: flex;
-            align-items: center;
-            margin: 15px 0;
-            color: #3a3a3c;
-        }
-        
-        .perm-icon {
-            width: 40px;
-            height: 40px;
-            background: #e5e5ea;
-            border-radius: 10px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
+        .step-text {
+            flex: 1;
+            line-height: 1.5;
         }
         
         /* Кнопки */
         .buttons {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 15px;
-            margin-top: 30px;
+            margin-top: 25px;
         }
         
         .btn {
-            padding: 18px;
+            padding: 18px 24px;
             border: none;
             border-radius: 14px;
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -214,20 +159,20 @@
             color: white;
         }
         
-        .btn-primary:hover {
+        .btn-primary:hover, .btn-primary:active {
+            background: linear-gradient(135deg, #0056CC, #0047AB);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
         }
         
         .btn-secondary {
             background: #f2f2f7;
             color: #007AFF;
-            border: 2px solid #007AFF;
+            border: 2px solid transparent;
         }
         
-        .btn-success {
-            background: linear-gradient(135deg, #34C759, #30B453);
-            color: white;
+        .btn-secondary:hover, .btn-secondary:active {
+            background: #e5e5ea;
         }
         
         .btn-android {
@@ -235,7 +180,13 @@
             color: white;
         }
         
+        .btn-android:hover, .btn-android:active {
+            background: linear-gradient(135deg, #45a049, #3d8c40);
+        }
+        
+        /* Загрузка */
         .loading {
+            display: none;
             text-align: center;
             padding: 40px 20px;
         }
@@ -243,7 +194,7 @@
         .spinner {
             width: 50px;
             height: 50px;
-            border: 4px solid #e5e5ea;
+            border: 4px solid #f2f2f7;
             border-top: 4px solid #007AFF;
             border-radius: 50%;
             margin: 20px auto;
@@ -255,235 +206,219 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Показ/скрытие */
-        .hidden {
-            display: none;
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .device-card {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 16px 20px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="device-frame">
-        <!-- iOS интерфейс -->
-        <div class="ios-header" id="ios-header">
-            <div class="app-icon-large">📱</div>
-            <div class="app-title">Тест-приложение</div>
-            <div class="app-subtitle">IT Project</div>
+    <div class="container">
+        <!-- Шапка -->
+        <div class="header">
+            <div class="app-icon">📱</div>
+            <h1>Тест-приложение</h1>
+            <p class="subtitle">Установите приложение на ваш телефон</p>
         </div>
         
-        <!-- Android интерфейс -->
-        <div class="android-header hidden" id="android-header">
-            <div class="android-icon">📱</div>
-            <div class="app-title">Тест-приложение</div>
-            <div class="app-subtitle">IT Project</div>
+        <!-- Для Android -->
+        <div class="device-card" id="android-card">
+            <div class="device-header">
+                <div class="device-icon android-icon">🤖</div>
+                <div class="device-title">Установка на Android</div>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Нажмите кнопку "Установить" ниже</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Подтвердите установку в появившемся окне</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Приложение появится на рабочем столе</div>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button class="btn btn-android" id="android-install-btn">
+                    ⚡ Установить приложение
+                </button>
+                <button class="btn btn-secondary" onclick="openWeb()">
+                    ▶️ Открыть веб-версию
+                </button>
+            </div>
+            
+            <div id="android-fallback" style="
+                display: none;
+                margin-top: 20px;
+                padding: 15px;
+                background: #fff3cd;
+                border-radius: 12px;
+                color: #856404;
+                font-size: 15px;
+            ">
+                <strong>Если кнопка не работает:</strong><br>
+                Откройте приложение → Меню (3 точки) → "Добавить на главный экран"
+            </div>
         </div>
         
-        <div class="content">
-            <!-- Определение устройства -->
-            <div class="device-detect" id="device-detect">
-                <div class="detect-icon">📱</div>
-                <h3>Определяем ваше устройство...</h3>
-                <p>Подбираем оптимальный способ установки</p>
+        <!-- Для iOS -->
+        <div class="device-card" id="ios-card">
+            <div class="device-header">
+                <div class="device-icon ios-icon">🍎</div>
+                <div class="device-title">Установка на iPhone/iPad</div>
             </div>
             
-            <!-- iOS установка -->
-            <div class="ios-install" id="ios-install">
-                <h3 style="text-align: center; margin-bottom: 20px;">Установка на iPhone/iPad</h3>
-                
-                <div class="ios-steps">
-                    <div class="ios-step">
-                        <div class="step-number">1</div>
-                        <div>Откройте приложение в <strong>Safari</strong></div>
-                    </div>
-                    <div class="ios-step">
-                        <div class="step-number">2</div>
-                        <div>Нажмите кнопку <strong>"Поделиться"</strong> (📤)</div>
-                    </div>
-                    <div class="ios-step">
-                        <div class="step-number">3</div>
-                        <div>Выберите <strong>"На экран «Домой»"</strong></div>
-                    </div>
-                    <div class="ios-step">
-                        <div class="step-number">4</div>
-                        <div>Нажмите <strong>"Добавить"</strong></div>
-                    </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Откройте приложение в <strong>Safari</strong> (кнопка ниже)</div>
                 </div>
-                
-                <div class="buttons">
-                    <button class="btn btn-primary" onclick="openForIOS()">
-                        <span>🌐 Открыть в Safari для установки</span>
-                    </button>
-                    <button class="btn btn-secondary" onclick="openWeb()">
-                        <span>▶️ Открыть веб-версию</span>
-                    </button>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Нажмите кнопку <strong>"Поделиться"</strong> (📤)</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Выберите <strong>"На экран «Домой»"</strong></div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Нажмите <strong>"Добавить"</strong></div>
                 </div>
             </div>
             
-            <!-- Android установка -->
-            <div class="android-install" id="android-install">
-                <h3 style="text-align: center; margin-bottom: 20px;">Установка на Android</h3>
-                
-                <div class="android-card">
-                    <div class="permission-item">
-                        <div class="perm-icon">📁</div>
-                        <div><strong>Локальное хранилище</strong><br><small>Сохранение прогресса тестов</small></div>
-                    </div>
-                    <div class="permission-item">
-                        <div class="perm-icon">🌐</div>
-                        <div><strong>Офлайн-работа</strong><br><small>Работа без интернета</small></div>
-                    </div>
-                    <div class="permission-item">
-                        <div class="perm-icon">⚡</div>
-                        <div><strong>Быстрая загрузка</strong><br><small>~2 МБ, устанавливается за секунды</small></div>
-                    </div>
-                </div>
-                
-                <div class="buttons">
-                    <button class="btn btn-android" id="android-install-btn">
-                        <span>⚡ Установить приложение</span>
-                    </button>
-                    <button class="btn btn-secondary" onclick="openWeb()">
-                        <span>▶️ Открыть веб-версию</span>
-                    </button>
-                </div>
-                
-                <div class="manual-fallback hidden" id="android-fallback" style="margin-top: 20px; padding: 15px; background: #f2f2f7; border-radius: 12px;">
-                    <p style="margin: 0; font-size: 14px; color: #666;">
-                        <strong>Если установка не началась:</strong><br>
-                        Откройте приложение → Меню (3 точки) → "Добавить на главный экран"
-                    </p>
-                </div>
+            <div class="buttons">
+                <button class="btn btn-primary" onclick="openForIOS()">
+                    🌐 Открыть в Safari для установки
+                </button>
+                <button class="btn btn-secondary" onclick="openWeb()">
+                    ▶️ Открыть веб-версию
+                </button>
             </div>
-            
-            <!-- Загрузка -->
-            <div class="loading hidden" id="loading">
-                <div class="spinner"></div>
-                <h3>Устанавливаю приложение...</h3>
-                <p>Не закрывайте эту страницу</p>
-            </div>
+        </div>
+        
+        <!-- Загрузка -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <h3 style="margin: 20px 0 10px;">Устанавливаю приложение...</h3>
+            <p style="color: #86868b;">Не закрывайте эту страницу</p>
         </div>
     </div>
 
     <script>
         // Элементы
-        const deviceDetect = document.getElementById('device-detect');
-        const iosInstall = document.getElementById('ios-install');
-        const androidInstall = document.getElementById('android-install');
-        const iosHeader = document.getElementById('ios-header');
-        const androidHeader = document.getElementById('android-header');
-        const loading = document.getElementById('loading');
+        const androidCard = document.getElementById('android-card');
+        const iosCard = document.getElementById('ios-card');
         const androidInstallBtn = document.getElementById('android-install-btn');
         const androidFallback = document.getElementById('android-fallback');
+        const loading = document.getElementById('loading');
         
         // Определяем устройство
         const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
         const isAndroid = /Android/i.test(navigator.userAgent);
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
         
-        // Переменная для PWA установки
-        let deferredPrompt;
-        
         // Инициализация
         function init() {
-            // Если уже установлено как PWA
+            // Если уже установлено - переходим сразу
             if (isStandalone) {
                 window.location.href = 'index.html';
                 return;
             }
             
-            // Через 1 секунду показываем нужный интерфейс
-            setTimeout(() => {
-                deviceDetect.classList.add('hidden');
-                
-                if (isIOS) {
-                    showIOSInterface();
-                } else if (isAndroid) {
-                    showAndroidInterface();
-                } else {
-                    // Для ПК/других устройств
-                    showIOSInterface(); // Показываем iOS интерфейс как универсальный
-                }
-            }, 1000);
+            // Показываем нужную карточку
+            if (isIOS) {
+                androidCard.style.display = 'none';
+            } else if (isAndroid) {
+                iosCard.style.display = 'none';
+                setupAndroidInstall();
+            } else {
+                // Для ПК показываем обе карточки
+                setupAndroidInstall();
+            }
         }
         
-        // Показать iOS интерфейс
-        function showIOSInterface() {
-            iosHeader.classList.remove('hidden');
-            iosInstall.classList.remove('hidden');
-        }
-        
-        // Показать Android интерфейс
-        function showAndroidInterface() {
-            androidHeader.classList.remove('hidden');
-            androidInstall.classList.remove('hidden');
+        // Настройка установки для Android
+        function setupAndroidInstall() {
+            let deferredPrompt;
             
             // Ловим событие установки PWA
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
                 
-                // Включаем кнопку установки
+                // Активируем кнопку
                 androidInstallBtn.disabled = false;
-                androidInstallBtn.innerHTML = '<span>⚡ Установить приложение</span>';
+                androidInstallBtn.innerHTML = '⚡ Установить приложение';
             });
             
-            // Если событие не пришло через 2 секунды
+            // Если событие не пришло
             setTimeout(() => {
                 if (!deferredPrompt) {
-                    androidFallback.classList.remove('hidden');
-                    androidInstallBtn.innerHTML = '<span>📱 Открыть для установки</span>';
+                    androidFallback.style.display = 'block';
+                    androidInstallBtn.innerHTML = '📱 Открыть для установки';
                 }
-            }, 2000);
+            }, 1500);
             
             // Обработчик кнопки установки
-            androidInstallBtn.addEventListener('click', installAndroidApp);
-        }
-        
-        // Установка для Android
-        function installAndroidApp() {
-            if (deferredPrompt) {
-                // Показываем экран загрузки
-                androidInstall.classList.add('hidden');
-                loading.classList.remove('hidden');
-                
-                // Показываем нативный диалог установки
-                deferredPrompt.prompt();
-                
-                // Ждем ответ пользователя
-                deferredPrompt.userChoice.then(choiceResult => {
-                    if (choiceResult.outcome === 'accepted') {
-                        // Успешно установлено
-                        loading.querySelector('h3').textContent = '✅ Установлено!';
-                        loading.querySelector('p').textContent = 'Запускаю приложение...';
-                        
-                        // Переходим в приложение через 2 секунды
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 2000);
-                    } else {
-                        // Пользователь отказался
-                        loading.classList.add('hidden');
-                        androidInstall.classList.remove('hidden');
-                        androidFallback.classList.remove('hidden');
-                    }
+            androidInstallBtn.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    // Показываем загрузку
+                    androidCard.style.display = 'none';
+                    loading.style.display = 'block';
                     
-                    deferredPrompt = null;
-                });
-            } else {
-                // Если PWA не поддерживается - открываем веб-версию
-                openWeb();
-            }
+                    // Показываем диалог установки
+                    deferredPrompt.prompt();
+                    
+                    // Ждем ответ
+                    deferredPrompt.userChoice.then(choiceResult => {
+                        if (choiceResult.outcome === 'accepted') {
+                            // Успех
+                            loading.querySelector('h3').textContent = '✅ Установлено!';
+                            loading.querySelector('p').textContent = 'Запускаю приложение...';
+                            
+                            setTimeout(() => {
+                                window.location.href = 'index.html';
+                            }, 1500);
+                        } else {
+                            // Отказ
+                            loading.style.display = 'none';
+                            androidCard.style.display = 'block';
+                        }
+                        
+                        deferredPrompt = null;
+                    });
+                } else {
+                    // Если PWA не поддерживается
+                    openWeb();
+                }
+            });
         }
         
         // Для iOS
         function openForIOS() {
             window.location.href = 'index.html';
             
-            // Показываем подсказку
+            // Подсказка
             setTimeout(() => {
-                if (confirm('Для установки на iPhone:\n1. Убедитесь что открыто в Safari\n2. Нажмите "Поделиться" (📤)\n3. Выберите "На экран «Домой»"\n4. Нажмите "Добавить"\n\nПоказать инструкцию еще раз?')) {
-                    // Ничего не делаем, инструкция уже на экране
-                }
-            }, 500);
+                alert('Для установки на iPhone:\n1. Убедитесь что открыто в Safari\n2. Нажмите "Поделиться" (📤)\n3. Выберите "На экран «Домой»"\n4. Нажмите "Добавить"');
+            }, 300);
         }
         
         // Открыть веб-версию
@@ -491,7 +426,7 @@
             window.location.href = 'index.html';
         }
         
-        // Запуск при загрузке
+        // Запуск
         window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
