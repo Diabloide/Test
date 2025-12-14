@@ -3,147 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест-приложение</title>
+    <title>Установить приложение</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3f51b5">
     <style>
         body {
-            font-family: -apple-system, sans-serif;
-            background: linear-gradient(135deg, #3f51b5, #2196F3);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a237e, #283593);
             color: white;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
             padding: 20px;
         }
         
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
         
-        .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-radius: 22px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
         h1 {
-            color: #3f51b5;
-            margin-bottom: 10px;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
         
         .subtitle {
-            color: #666;
-            margin-bottom: 30px;
+            font-size: 18px;
+            opacity: 0.9;
             line-height: 1.5;
+            max-width: 400px;
+            margin: 0 auto;
         }
         
-        .install-hint {
-            background: #f0f4ff;
-            padding: 15px;
-            border-radius: 12px;
-            margin: 20px 0;
-            border-left: 4px solid #3f51b5;
-            font-size: 14px;
-            color: #555;
-            text-align: left;
+        /* Инструкция */
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 18px;
+        .instructions-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 35px;
+            color: #4CAF50;
+            font-weight: 700;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid #4CAF50;
+            transition: transform 0.3s;
+        }
+        
+        .step:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
             background: #4CAF50;
             color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-size: 20px;
             font-weight: 600;
-            cursor: pointer;
-            margin: 10px 0;
-            text-decoration: none;
-            transition: all 0.3s;
+            margin-bottom: 8px;
+            color: white;
         }
         
-        .btn:hover {
-            background: #45a049;
-            transform: translateY(-2px);
+        .step-description {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.6;
+            color: #e0e0e0;
         }
         
-        .btn-secondary {
-            background: #3f51b5;
+        .step-icon {
+            font-size: 28px;
+            margin-left: 15px;
+            opacity: 0.8;
         }
         
-        .btn-secondary:hover {
-            background: #303f9f;
+        /* Уведомление */
+        .notice {
+            background: rgba(255, 235, 59, 0.1);
+            border: 2px solid #FFC107;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .notice-title {
+            color: #FFC107;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .app-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 36px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .instructions {
+                padding: 25px 20px;
+            }
+            
+            .step {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 15px;
+            }
+            
+            .step-number {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .step-icon {
+                margin-left: 0;
+                margin-top: 10px;
+            }
         }
     </style>
+    <script>
+        // Если уже установлено как PWA - сразу в приложение
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            window.location.href = 'app.html';
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <div class="icon">📱</div>
-        <h1>Тест-приложение</h1>
-        <p class="subtitle">Пройти тесты на знания математики</p>
-        
-        <div class="install-hint">
-            <strong>Как установить:</strong><br>
-            • Нажмите "Открыть приложение" ниже<br>
-            • В браузере: меню (3 точки)<br>
-            • Выберите "Добавить на главный экран"
+        <!-- Шапка -->
+        <div class="header">
+            <div class="app-icon">📱</div>
+            <h1>Тест-приложение</h1>
+            <p class="subtitle">Установите приложение на главный экран для быстрого доступа</p>
         </div>
         
-        <button class="btn" onclick="startApp()">
-            ▶️ Открыть приложение
-        </button>
+        <!-- Инструкция -->
+        <div class="instructions">
+            <div class="instructions-title">📋 Пошаговая инструкция установки</div>
+            
+            <!-- Шаг 1 -->
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">Откройте меню браузера</div>
+                    <div class="step-description">Нажмите на три точки (⋮) в правом верхнем углу экрана</div>
+                </div>
+                <div class="step-icon">⋮</div>
+            </div>
+            
+            <!-- Шаг 2 -->
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">Выберите пункт установки</div>
+                    <div class="step-description">В открывшемся меню найдите и нажмите на пункт<br><strong>"Добавить на главный экран"</strong> или <strong>"Установить приложение"</strong></div>
+                </div>
+                <div class="step-icon">➕</div>
+            </div>
+            
+            <!-- Шаг 3 -->
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">Подтвердите установку</div>
+                    <div class="step-description">Нажмите кнопку <strong>"Установить"</strong> или <strong>"Добавить"</strong> в появившемся окне</div>
+                </div>
+                <div class="step-icon">✅</div>
+            </div>
+            
+            <!-- Шаг 4 -->
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">Запустите приложение</div>
+                    <div class="step-description">Найдите иконку приложения на главном экране телефона и нажмите на неё</div>
+                </div>
+                <div class="step-icon">🚀</div>
+            </div>
+        </div>
         
-        <button class="btn btn-secondary" id="install-btn" onclick="installPWA()" style="display: none;">
-            ⚡ Установить приложение
-        </button>
+        <!-- Уведомление -->
+        <div class="notice">
+            <div class="notice-title">💡 Важно знать:</div>
+            <p>Установка происходит прямо с этой страницы!<br>
+            <strong>Не нужно</strong> переходить куда-либо ещё.</p>
+        </div>
         
-        <div style="margin-top: 25px; color: #888; font-size: 14px;">
-            После установки иконка появится на рабочем столе
+        <!-- Футер -->
+        <div class="footer">
+            <p>Приложение будет работать как обычное, без адресной строки браузера<br>
+            Поддерживает офлайн-режим и автоматические обновления</p>
         </div>
     </div>
 
     <script>
-        // Если открыто как PWA - сразу переходим в приложение
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            window.location.href = 'app.html';
-        }
-        
-        // Кнопка установки PWA для Android
+        // Автоматическая установка PWA для Android (если поддерживается)
         let deferredPrompt;
         
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('install-btn').style.display = 'block';
+            
+            // Можно добавить автоустановку через 3 секунды
+            setTimeout(() => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(choiceResult => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('Пользователь установил приложение');
+                        }
+                        deferredPrompt = null;
+                    });
+                }
+            }, 3000);
         });
-        
-        function installPWA() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(choiceResult => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('PWA установлено');
-                    }
-                    deferredPrompt = null;
-                });
-            }
-        }
-        
-        function startApp() {
-            window.location.href = 'app.html';
-        }
     </script>
 </body>
 </html>
