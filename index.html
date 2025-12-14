@@ -1,44 +1,149 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#3f51b5">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Тест-оценка</title>
-  <link rel="icon" href="/icons/icons-192png.png">
-  <link rel="apple-touch-icon" href="/icons/icons-192png.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест-приложение</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3f51b5">
+    <style>
+        body {
+            font-family: -apple-system, sans-serif;
+            background: linear-gradient(135deg, #3f51b5, #2196F3);
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            color: #333;
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #3f51b5;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .install-hint {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #3f51b5;
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 0;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #3f51b5;
+        }
+        
+        .btn-secondary:hover {
+            background: #303f9f;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="icon">📱</div>
+        <h1>Тест-приложение</h1>
+        <p class="subtitle">Пройти тесты на знания математики</p>
+        
+        <div class="install-hint">
+            <strong>Как установить:</strong><br>
+            • Нажмите "Открыть приложение" ниже<br>
+            • В браузере: меню (3 точки)<br>
+            • Выберите "Добавить на главный экран"
+        </div>
+        
+        <button class="btn" onclick="startApp()">
+            ▶️ Открыть приложение
+        </button>
+        
+        <button class="btn btn-secondary" id="install-btn" onclick="installPWA()" style="display: none;">
+            ⚡ Установить приложение
+        </button>
+        
+        <div style="margin-top: 25px; color: #888; font-size: 14px;">
+            После установки иконка появится на рабочем столе
+        </div>
+    </div>
 
-  <h1>Добро пожаловать в Тестовое Приложение</h1>
-  <button onclick="location.href='menu.html'">Перейти к меню</button>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').then(reg => {
-        reg.onupdatefound = () => {
-          const newWorker = reg.installing;
-          newWorker.onstatechange = () => {
-            if (newWorker.state === 'installed') {
-              if (navigator.serviceWorker.controller) {
-                // Новый сервис-воркер готов, уведомляем пользователя
-                if (confirm("Доступна новая версия приложения. Обновить сейчас?")) {
-                  newWorker.postMessage('skipWaiting');
-                  window.location.reload();
-                }
-              }
+    <script>
+        // Если открыто как PWA - сразу переходим в приложение
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            window.location.href = 'app.html';
+        }
+        
+        // Кнопка установки PWA для Android
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-btn').style.display = 'block';
+        });
+        
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choiceResult => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA установлено');
+                    }
+                    deferredPrompt = null;
+                });
             }
-          };
-        };
-      }).catch(error => {
-        console.error('Ошибка регистрации Service Worker:', error);
-      });
-    }
-  </script>
-
+        }
+        
+        function startApp() {
+            window.location.href = 'app.html';
+        }
+    </script>
 </body>
 </html>

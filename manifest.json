@@ -1,11 +1,12 @@
 {
   "name": "Мой проект",
   "short_name": "МПР",
-  "start_url": ".",
+  "start_url": "app.html",  
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0078d7",
   "orientation": "portrait",
+  
   "icons": [
     {
       "src": "icons/icon-192.png.png",

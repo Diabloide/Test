@@ -1,8 +1,9 @@
 const CACHE_NAME = 'quiz-cache-v9.5';
 
 const urlsToCache = [
-  '/',
+  './',
   '/index.html',
+  './app.html',
   '/test1.html',
   '/test2.html',
   '/menu.html',

@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <link rel="manifest" href="/manifest.json">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#3f51b5">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Меню тестов</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Тест-оценка</title>
   <link rel="icon" href="/icons/icons-192png.png">
   <link rel="apple-touch-icon" href="/icons/icons-192png.png">
 </head>
 <body>
 
-<script>
+  <h1>Добро пожаловать в Тестовое Приложение</h1>
+  <button onclick="location.href='menu.html'">Перейти к меню</button>
+
+  <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').then(reg => {
         reg.onupdatefound = () => {
@@ -37,21 +40,5 @@
     }
   </script>
 
-  <div class="menu-page">
-    <h1>Меню тестов</h1>
-    <div class="menu-buttons">
-  <a href="app.html" class="menu-button">Тест.Задание#2</a>  <!-- ← ИЗМЕНИТЕ -->
-  <a href="test2.html" class="menu-button">Тестирование начальных настроек</a>
-  <a href="test3.html" class="menu-button">В разработке</a>
-</div>
-  </div>
-
-  <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('✅ Service Worker зарегистрирован:', reg.scope))
-      .catch(err => console.error('❌ Ошибка регистрации SW:', err));
-  }
-</script>
 </body>
 </html>
